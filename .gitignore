@@ -73,3 +73,5 @@ fabric.properties
 
 # Прочее
 /models/*
+*.stl*
+*.html
