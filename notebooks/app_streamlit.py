@@ -3,41 +3,42 @@ import yaml
 from PIL import Image
 import plotly.graph_objects as go
 
-# Функция для чтения YAML файла
-def load_yaml(file):
-    return yaml.safe_load(file)
+from transformers import pipeline
+import torch
+import numpy as np
+from PIL import Image
+import time
+device = "cuda"
+checkpoint = "depth-anything/Depth-Anything-V2-base-hf"
+pipe = pipeline("depth-estimation", model=checkpoint, device=device)
 
-# Заглушка для расчета диаметра окружностей
-def calculate_diameters(left_image, right_image, optical_scheme):
-    # Здесь должен быть код для обработки изображений
-    # Возвращаем список диаметров окружностей (заглушка)
-    return [5.0, 10.0, 15.0]
+def run_inference(left_image,right_image):
+    time_start = time.time()
+    predictions_right = pipe(right_image)
+    predictions_left = pipe(left_image)
 
-# Заглушка для расчета расстояний между точками
-def calculate_distances(diameters):
-    # Здесь должен быть код для вычисления расстояний
-    # Возвращаем список расстояний между точками (заглушка)
-    return [2.0, 4.0, 6.0]
+    left_image_mask = np.array(predictions_left["depth"])
+    right_image_mask = np.array(predictions_right["depth"])
 
-# Функция для построения 3D модели
-def plot_3d_model(diameters, distances):
-    # Создание заглушки для 3D модели
-    fig = go.Figure()
 
-    # Пример: Создаем 3 точки в 3D пространстве
-    x = [1, 2, 3]
-    y = [1, 2, 3]
-    z = [1, 2, 3]
+    clear_mask_left = left_image_mask.copy()
+    clear_mask_left[clear_mask_left<100] = 0
 
-    fig.add_trace(go.Scatter3d(x=x, y=y, z=z, mode='markers'))
+    clear_mask_right = right_image_mask.copy()
+    clear_mask_right[clear_mask_right<100] = 0
 
-    # Настройка отображения 3D модели
-    fig.update_layout(scene=dict(
-                        xaxis_title='X',
-                        yaxis_title='Y',
-                        zaxis_title='Z'),
-                      width=700, margin=dict(r=20, b=10, l=10, t=10))
-    return fig
+    np_mask_left = np.array(left_image)
+    np_mask_left = np_mask_left[:, :, ::-1].copy()
+
+    np_mask_right = np.array(right_image)
+    np_mask_right = np_mask_right[:, :, ::-1].copy()
+
+    np_mask_left[clear_mask_left == 0] = 0
+    np_mask_right[clear_mask_right == 0] = 0
+
+    print(time.time() - time_start)
+    return np_mask_left,np_mask_right
+    
 
 # Интерфейс Streamlit
 st.title("northGeom3d")
@@ -45,29 +46,21 @@ st.title("northGeom3d")
 # Загрузка изображений и файла с оптической схемой
 left_image_file = st.file_uploader("Левое изображение", type=["jpg", "jpeg", "png"])
 right_image_file = st.file_uploader("Правое изображение", type=["jpg", "jpeg", "png"])
-yaml_file = st.file_uploader("Загрузите YAML файл с оптической схемой", type=["yaml"])
+# yaml_file = st.file_uploader("Загрузите YAML файл с оптической схемой", type=["yaml"])
 
-if left_image_file and right_image_file and yaml_file:
+if left_image_file and right_image_file:
     # Отображение загруженных изображений
-    left_image = Image.open(left_image_file)
-    right_image = Image.open(right_image_file)
+    left_image = Image.open(left_image_file).convert('RGB')
+    right_image = Image.open(right_image_file).convert('RGB')
 
     st.image(left_image, caption="Левое изображение", use_column_width=True)
     st.image(right_image, caption="Правое изображение", use_column_width=True)
-
-    # Загрузка и отображение YAML файла
-    optical_scheme = load_yaml(yaml_file)
-    st.write("Оптическая схема:", optical_scheme)
+    
 
     if st.button("Обработать"):
-        # Выполнение расчетов
-        diameters = calculate_diameters(left_image, right_image, optical_scheme)
-        distances = calculate_distances(diameters)
+        left_image_mask,right_image_mask = run_inference(left_image,right_image)
 
         # Вывод результатов расчетов
-        st.write("Диаметры окружностей:", diameters)
-        st.write("Расстояния между точками:", distances)
-
-        # Построение и вывод 3D модели
-        fig = plot_3d_model(diameters, distances)
-        st.plotly_chart(fig)
+        st.image(left_image_mask, caption="Левое изображение", use_column_width=True)
+        st.image(right_image_mask, caption="Правое изображение", use_column_width=True)
+       
