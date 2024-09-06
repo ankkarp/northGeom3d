@@ -1,13 +1,13 @@
-from flask import Flask, request, jsonify, send_file
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 import plotly.graph_objs as go
 import plotly.offline as pyo
 import numpy as np
 from stl import mesh
 import yaml
 import json
-import io
 
-app = Flask(__name__)
+app = FastAPI()
 
 def create_3d_plot():
     # Create a simple 3D plot
@@ -38,51 +38,37 @@ def create_stl_file():
         for j in range(3):
             cube.vectors[i][j] = vertices[f[j], :]
 
-    # Convert STL to JSON format
-    stl_io = './data/stl_mesh.stl'
-    cube.save(stl_io)
-    stl_io = open(stl_io, 'rb')
-    stl_io.seek(0)
-    return stl_io
+    # Save STL to a file
+    stl_path = './data/stl_mesh.stl'
+    cube.save(stl_path)
+    return stl_path
 
-@app.route('/api/test/stl', methods=['POST'])
-def response_stl():
-    if 'image1' not in request.files or 'image2' not in request.files or 'yaml_file' not in request.files:
-        return jsonify({'error': 'Missing files'}), 400
-
-    image1 = request.files['image1']
-    image2 = request.files['image2']
-    yaml_file = request.files['yaml_file']
-
-    
+@app.post("/api/test/stl")
+async def response_stl(image1: UploadFile = File(...), image2: UploadFile = File(...), yaml_file: UploadFile = File(...)):
+    if not image1 or not image2 or not yaml_file:
+        raise HTTPException(status_code=400, detail="Missing files")
 
     # Dummy processing: read YAML
-    yaml_content = yaml.safe_load(yaml_file)
+    yaml_content = yaml.safe_load(yaml_file.file)
 
-    # Generate 3D plot and STL file
-    stl_file = create_stl_file()
+    # Generate STL file
+    stl_file_path = create_stl_file()
 
-    return send_file(stl_file, download_name='object.stl')
+    return FileResponse(stl_file_path, filename='object.stl')
 
-
-@app.route('/api/test/ply', methods=['POST'])
-def response_ply():
-    if 'image1' not in request.files or 'image2' not in request.files or 'yaml_file' not in request.files:
-        return jsonify({'error': 'Missing files'}), 400
-
-    image1 = request.files['image1']
-    image2 = request.files['image2']
-    yaml_file = request.files['yaml_file']
-
-    
+@app.post("/api/test/ply")
+async def response_ply(image1: UploadFile = File(...), image2: UploadFile = File(...), yaml_file: UploadFile = File(...)):
+    if not image1 or not image2 or not yaml_file:
+        raise HTTPException(status_code=400, detail="Missing files")
 
     # Dummy processing: read YAML
-    yaml_content = yaml.safe_load(yaml_file)
+    yaml_content = yaml.safe_load(yaml_file.file)
 
-    # Generate 3D plot and STL file
+    # Generate 3D plot
     plot_html = create_3d_plot()
 
-    return jsonify({'plot_html': plot_html})
+    return HTMLResponse(content=plot_html)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=420)
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=420)
