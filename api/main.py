@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import plotly.graph_objs as go
 import plotly.offline as pyo
 import numpy as np
@@ -41,13 +41,32 @@ def create_stl_file():
     # Convert STL to JSON format
     stl_io = './data/stl_mesh.stl'
     cube.save(stl_io)
-    stl_io = open(stl_io, 'r')
+    stl_io = open(stl_io, 'rb')
     stl_io.seek(0)
-    stl_json = json.dumps({'stl': stl_io.read()})
-    return stl_json
+    return stl_io
 
-@app.route('/api/test', methods=['POST'])
-def process_files():
+@app.route('/api/test/stl', methods=['POST'])
+def response_stl():
+    if 'image1' not in request.files or 'image2' not in request.files or 'yaml_file' not in request.files:
+        return jsonify({'error': 'Missing files'}), 400
+
+    image1 = request.files['image1']
+    image2 = request.files['image2']
+    yaml_file = request.files['yaml_file']
+
+    
+
+    # Dummy processing: read YAML
+    yaml_content = yaml.safe_load(yaml_file)
+
+    # Generate 3D plot and STL file
+    stl_file = create_stl_file()
+
+    return send_file(stl_file, download_name='object.stl')
+
+
+@app.route('/api/test/ply', methods=['POST'])
+def response_ply():
     if 'image1' not in request.files or 'image2' not in request.files or 'yaml_file' not in request.files:
         return jsonify({'error': 'Missing files'}), 400
 
@@ -62,9 +81,8 @@ def process_files():
 
     # Generate 3D plot and STL file
     plot_html = create_3d_plot()
-    stl_json = create_stl_file()
 
-    return jsonify({'plot_html': plot_html, 'stl_file': stl_json})
+    return jsonify({'plot_html': plot_html})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=420)
