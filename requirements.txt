@@ -1,5 +1,5 @@
-Flask
-numpy-stl
-pyyaml
-plotly
-numpy
+fastapi==0.114.0
+numpy-stl==3.1.2
+PyYAML==6.0.1
+plotly==5.19.0
+numpy==1.26.4
