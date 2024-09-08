@@ -1,0 +1,13 @@
+.upload{
+    padding: 2em;
+
+}
+.upload g path{
+    transition: 1s ease-in-out;
+    stroke: var(--base-clr)
+}
+
+.upload :hover {
+    stroke:var(--accent-clr);
+    transition: .5s ease-in-out;
+}

@@ -1,0 +1,85 @@
+:root {
+  --base-clr: #002F6C;
+  --accent-clr: #FF0000;
+  --background-clr: #ffffff;
+  --font: Inter
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  color: var(--base-clr);
+  background: var(--background-clr);
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  margin: 1rem;
+
+}
+
+textarea, input, button { 
+  outline: none;
+  border: none;
+  margin: 0;
+}
+
+button {
+  font-family: var(--primary-font);
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+h1{
+  margin-bottom: 0px;
+  font-size: 1.6rem;
+}
+
+h2 {
+  margin: 0px 0rem 2rem 0;
+  margin-left: 5rem;
+  font-size: 1rem;
+
+}
+
+span{
+  color: var(--accent-clr)
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr ;
+  align-items: center;
+  grid-auto-flow: column;
+  column-gap: 2em;
+  row-gap: 2em;
+}
+
+@media screen and (orientation:portrait) {
+  main {
+    grid-template-columns: 1fr;
+  grid-auto-flow: row;
+
+  }
+}
