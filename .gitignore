@@ -78,3 +78,6 @@ fabric.properties
 *.zip
 *.pptx
 Материалы кейс 11/*
+notebooks/calibration_2.ipynb
+notebooks/multiview_reconstruction
+notebooks/mvsformer_test.sh
