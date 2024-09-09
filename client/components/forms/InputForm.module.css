@@ -50,17 +50,3 @@
     background-color: rgba(22, 22, 57, 0.478);
     z-index: 9;
 }
-
-.container video {
-    height:500px
-}
-
-.epoch{
-    color: var(--text-clr);
-    width: 300px;
-    padding-bottom: 50px
-}
-
-.epoch p{
-    margin-bottom: 40px;
-}
