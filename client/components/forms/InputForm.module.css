@@ -1,52 +1,33 @@
-.container{
+.cancel{
+    border-radius: 20px;
+    background-color: white;
+    width: fit-content;
+    padding: 0 2rem 0 2rem;
+}
+
+.cancel p{
+    color: var(--accent-clr)
+}
+
+.submit{
+    border: 3px var(--base-clr) solid;
+    border-radius: 20px;
+    background-color: var(--base-clr);
+    height: fit-content;
+    padding: 0 1rem 0 1rem;
+}
+
+.submit p{
+    color: white
+}
+
+
+.buttons{
+    grid-row: 3;
+    grid-column: span 2;
+    position: relative;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    align-content: center;
-    width: 100%;
-    height: 100vh;
-    position: relative;
-}
-
-.loading{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-}
-
-.upload {
-    width: clamp(500px, 500px, 40vw);
-    height: clamp(500px, 500px, 90vw);
-    border: 1px var(--accent-clr) double;
-    border-radius: 10%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: var(--accent-clr);
-    position: relative;
-}
-
-.upload input {
-    display: none;
-}
-
-.upload button {
-    width: 100%;
-    height: 100%;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: large;
-    color: var(--accent-clr);
-}
-
-.shadow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    overflow: hidden;
-    border-radius: 10%;
-    background-color: rgba(22, 22, 57, 0.478);
-    z-index: 9;
 }

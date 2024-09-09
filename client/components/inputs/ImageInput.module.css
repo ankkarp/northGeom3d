@@ -1,16 +1,26 @@
 .upload {
     display: none;
+    position: relative;
 }
 
 .container{
-    border: 1px var(--base-clr) dashed;
-    border-radius: 10%;
+    border: 3px var(--base-clr) solid;
+    border-radius: 30px;
+    justify-content: center;
+    position: relative;
+    height:300px;
+    width: 300px;
 }
 
+.container button{
+    width: 100%
+}
+
+/* .container button svg g path{
+    transition: 1s ease-in-out;
+    fill: var(--base-clr)
+} */
+
 .upload button {
-    width: 100%;
-    height: 100%;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: large;
     color: var(--accent-clr);
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import InputForm from "../components/forms/InputForm";
+import InputForm from "@forms/InputForm";
 
 export default function Home() {
   return (
