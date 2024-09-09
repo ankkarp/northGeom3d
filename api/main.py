@@ -43,6 +43,13 @@ def create_stl_file():
     cube.save(stl_path)
     return stl_path
 
+
+@app.middleware("http")
+async def add_cors_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
 @app.post("/api/test/stl")
 async def response_stl(image1: UploadFile = File(...), image2: UploadFile = File(...), yaml_file: UploadFile = File(...)):
     if not image1 or not image2 or not yaml_file:
