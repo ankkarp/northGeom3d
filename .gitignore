@@ -81,3 +81,4 @@ fabric.properties
 notebooks/calibration_2.ipynb
 notebooks/multiview_reconstruction
 notebooks/mvsformer_test.sh
+make_dataset/*
