@@ -4,11 +4,14 @@ from fastapi.encoders import jsonable_encoder
 import plotly.graph_objs as go
 import plotly.offline as pyo
 import numpy as np
+import trimesh
 from stl import mesh
 import yaml
 import json
+import os
 
 app = FastAPI()
+DIR = os.path.dirname(__file__)
 
 def create_3d_plot():
     # Параметры шара
@@ -23,12 +26,14 @@ def create_3d_plot():
     x = radius * np.sin(theta) * np.cos(phi)
     y = radius * np.sin(theta) * np.sin(phi)
     z = radius * np.cos(theta)
-    
+
     res = {
         'x':x.tolist(),
         'y':y.tolist(),
         'z':z.tolist()
     }
+
+    res['colors'] = z.tolist()
 
     return json.dumps(res)
 
