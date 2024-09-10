@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InputForm from "@forms/InputForm";
+import OutputForm from "@forms/OutputForm";
 
 export default function Home() {
   const [points, setPoints] = useState();
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <main>
       <InputForm setPoints={setPoints} setStlURL={setStlURL} />
+      <OutputForm points={points} stlURL={stlURL} />
     </main>
   );
 }

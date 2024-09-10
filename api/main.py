@@ -41,7 +41,7 @@ def create_stl_file():
     # Save STL to a file
     stl_path = './data/stl_mesh.stl'
     cube.save(stl_path)
-    return stl_path
+    return 'data/Back_Shell.stl'
 
 
 @app.middleware("http")
@@ -61,7 +61,7 @@ async def response_stl(image1: UploadFile = File(...), image2: UploadFile = File
     # Generate STL file
     stl_file_path = create_stl_file()
 
-    return FileResponse(stl_file_path, filename='object.stl')
+    return FileResponse(stl_file_path, filename='object.stl', media_type='model/stl')
 
 @app.post("/api/test/ply")
 async def response_ply(image1: UploadFile = File(...), image2: UploadFile = File(...), yaml_file: UploadFile = File(...)):

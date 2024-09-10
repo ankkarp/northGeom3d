@@ -39,15 +39,19 @@ export default function InputForm({ setPoints, setStlURL }) {
           },
         })
         .then((r) => setPoints(r.data))
-        .then(() => setLoading(true))
-        .then(() => formData.delete("yaml_file"));
+        .then(() => setLoading(true));
+      // .then(() => formData.delete("yaml_file"));
       http
         .post(`api/test/stl`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((r) => setStlURL(r.data));
+        .then((r) => {
+          console.log(r.data);
+          const blob = new Blob([r.data], { type: "model/stl" });
+          setStlURL(URL.createObjectURL(blob));
+        });
     } catch (e) {
       console.log(e);
     }
