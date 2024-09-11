@@ -1,23 +1,41 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
+from fastapi.responses import JSONResponse, FileResponse, JSONResponse
+from fastapi.encoders import jsonable_encoder
 import plotly.graph_objs as go
 import plotly.offline as pyo
 import numpy as np
+import trimesh
 from stl import mesh
 import yaml
 import json
+import os
 
 app = FastAPI()
+DIR = os.path.dirname(__file__)
 
 def create_3d_plot():
-    # Create a simple 3D plot
-    x = np.linspace(-5, 5, 100)
-    y = np.linspace(-5, 5, 100)
-    z = np.sin(np.sqrt(x**2 + y**2))
+    # Параметры шара
+    num_points = 10000  # Количество точек
+    radius = 1  # Радиус шара
 
-    fig = go.Figure(data=[go.Surface(z=z, x=x, y=y)])
-    plot_html = pyo.plot(fig, include_plotlyjs=True, output_type='div')
-    return plot_html
+    # Генерация случайных точек на поверхности шара
+    phi = np.random.uniform(0, np.pi * 2, num_points)
+    theta = np.random.uniform(0, np.pi, num_points)
+
+    # Преобразование сферических координат в декартовы
+    x = radius * np.sin(theta) * np.cos(phi)
+    y = radius * np.sin(theta) * np.sin(phi)
+    z = radius * np.cos(theta)
+
+    res = {
+        'x':x.tolist(),
+        'y':y.tolist(),
+        'z':z.tolist()
+    }
+
+    res['colors'] = z.tolist()
+
+    return res
 
 def create_stl_file():
     # Create a simple STL mesh
@@ -74,7 +92,7 @@ async def response_ply(image1: UploadFile = File(...), image2: UploadFile = File
     # Generate 3D plot
     plot_html = create_3d_plot()
 
-    return HTMLResponse(content=plot_html)
+    return JSONResponse(content=plot_html)
 
 if __name__ == '__main__':
     import uvicorn

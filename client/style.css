@@ -73,17 +73,23 @@ span{
 }
 
 main {
+  display: flex;
+  flex-direction: row;
+
+}
+
+/* main {
   display: grid;
   grid-template-columns: 300px 300px 1fr;
   column-gap: 2em;
   row-gap: 2em;
   place-items: center;
 
-}
+} */
 
-@media screen and (orientation:portrait) {
+/* @media screen and (orientation:portrait) {
   main {
     grid-template-columns: 1fr;
 
   }
-}
+} */

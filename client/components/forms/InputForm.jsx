@@ -58,7 +58,7 @@ export default function InputForm({ setPoints, setStlURL }) {
   };
 
   return (
-    <>
+    <div className={styles.form}>
       <ImageInput
         setImageFile={setImageFile}
         setImageURL={setImageURL}
@@ -80,6 +80,6 @@ export default function InputForm({ setPoints, setStlURL }) {
           <p>Сбросить</p>
         </button>
       </div>
-    </>
+    </div>
   );
 }
