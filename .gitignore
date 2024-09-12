@@ -71,7 +71,9 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
-make_dataset/*
+make_dataset/train/*
+make_dataset/test/*
+make_dataset/val/*
 Материалы кейс 11/*
 *.pptx
 *.zip
