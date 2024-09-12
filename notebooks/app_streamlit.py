@@ -13,10 +13,6 @@ device = "cuda"
 checkpoint = "depth-anything/Depth-Anything-V2-base-hf"
 pipe = pipeline("depth-estimation", model=checkpoint, device=device)
 
-"""
-Расстояние между точками 9.6мм или 10.6мм
-"""
-
 
 def euclidean_distance(point1, point2):
     """
@@ -82,6 +78,13 @@ def find_circle(img):
 
     for i in range(len(centers) - 1):
         cv2.line(img, centers[i], centers[i + 1], (0, 255, 0), 2)
+
+        midpoint = ((centers[i][0] + centers[i+1][0]) // 2, (centers[i][1] + centers[i+1][1]) // 2)
+        distance_px = euclidean_distance(centers[i], centers[i + 1])
+        distance_mm = pixels_to_mm(distance_px)
+
+                # Рисуем значение расстояния рядом с линией
+        cv2.putText(img, f"{distance_mm:.1f}", midpoint, cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 4, cv2.LINE_AA)
 
     return img
 
