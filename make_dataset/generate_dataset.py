@@ -45,10 +45,11 @@ def look_at(camera_position, target_position, up_vector=np.array([0, 0, 1])):
 
 def capture_views(stl_file, num_views, output_dir):
     # Загрузка STL-файла
+    material = pyrender.Material(alphaMode='OPAQUE')
     mesh = trimesh.load(stl_file)
     scene = pyrender.Scene()
     mesh_pr = pyrender.Mesh.from_trimesh(mesh)
-    scene.add(pyrender.Mesh.from_trimesh(mesh, smooth=False, wireframe=False))
+    scene.add(pyrender.Mesh.from_trimesh(mesh, wireframe=False))
 
     # Настройка камеры
     camera = pyrender.PerspectiveCamera(yfov=np.pi / 3.0, aspectRatio=1.0)
@@ -56,7 +57,7 @@ def capture_views(stl_file, num_views, output_dir):
     print(np.array(mesh_pr.centroid))
 
     # Настройка света
-    light = pyrender.PointLight(color=[.5, 0.5, 0.5], intensity=2000.0)
+    light = pyrender.PointLight(color=[1, 1, 1], intensity=2000.0)
     light_node = scene.add(light)
     light_pos = [
         [1, 0, 0, 0],
@@ -90,6 +91,12 @@ def capture_views(stl_file, num_views, output_dir):
         # Рендеринг
         color, depth = r.render(scene)
         normal, _ = r._renderer._read_main_framebuffer(scene, flags=pyrender.RenderFlags.FACE_NORMALS)
+
+        depth_non_bg = depth > 0
+        depth_min = depth[depth_non_bg].min()
+        depth[depth_non_bg] -= depth_min
+        depth[depth_non_bg] /= depth.max()
+        
 
         # Сохранение изображений
         Image.fromarray(color).save(os.path.join(output_dir, 'train', f'r_{i}.png'))
