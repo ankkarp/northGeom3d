@@ -9,6 +9,7 @@ from stl import mesh
 import yaml
 import json
 import os
+import time
 
 app = FastAPI()
 DIR = os.path.dirname(__file__)
@@ -78,6 +79,7 @@ async def response_stl(image1: UploadFile = File(...), image2: UploadFile = File
 
     # Generate STL file
     stl_file_path = create_stl_file()
+    time.time(5)
 
     return FileResponse(stl_file_path, filename='object.stl', media_type='model/stl')
 
@@ -91,6 +93,7 @@ async def response_ply(image1: UploadFile = File(...), image2: UploadFile = File
 
     # Generate 3D plot
     plot_html = create_3d_plot()
+    time.sleep(2)
 
     return JSONResponse(content=plot_html)
 

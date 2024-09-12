@@ -30,7 +30,7 @@ body {
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
-  margin: 1rem;
+  margin: 1rem 0 0 0;
 
 }
 
@@ -57,15 +57,13 @@ button {
 }
 
 h1{
-  margin-bottom: 0px;
+  margin: 0 0 0 1rem;
   font-size: 1.6rem;
 }
 
 h2 {
-  margin: 0px 0rem 2rem 0;
-  margin-left: 5rem;
+  margin: 0px 0rem 2rem 5rem;
   font-size: 1rem;
-
 }
 
 span{
@@ -75,7 +73,18 @@ span{
 main {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
+  justify-items: center;
+  margin: 1rem 0 0 2rem
+}
 
+@media screen and (orientation:portrait) {
+  main {
+    flex-direction:column;
+    width: 100vw;
+    margin: 0 0 2rem 0;
+
+  }
 }
 
 /* main {

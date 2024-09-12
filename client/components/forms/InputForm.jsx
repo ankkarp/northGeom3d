@@ -46,11 +46,12 @@ export default function InputForm({ setPoints, setStlURL }) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          responseType: "blob",
         })
         .then((r) => {
           console.log(r.data);
-          const blob = new Blob([r.data], { type: "model/stl" });
-          setStlURL(URL.createObjectURL(blob));
+          // const blob = new Blob(r.data, { type: "model/stl" });
+          setStlURL(URL.createObjectURL(r.data));
         });
     } catch (e) {
       console.log(e);

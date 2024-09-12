@@ -1,40 +1,51 @@
-// import { StlViewer } from "react-stl-viewer";
+import { StlViewer } from "react-stl-viewer";
 import React from "react";
 import dynamic from "next/dynamic";
 import styles from "./OutputForm.module.css";
 
 const OutputForm = ({ stlURL, points }) => {
   const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
-  const data = [
-    {
-      x: [1, 2, 3, 4, 5],
-      y: [2, 3, 4, 5, 6],
-      z: [5, 6, 7, 8, 9],
-      mode: "markers",
-      marker: { size: 2, color: "blue", opacity: 0.8 },
-      type: "scatter3d",
-    },
-  ];
 
   const layout = {
     title: "3D Scatter Plot Example",
     autosize: true,
+    // width: 500,
+    // height: 500,
     scene: {
-      xaxis: { title: "X-axis" },
-      yaxis: { title: "Y-axis" },
-      zaxis: { title: "Z-axis" },
+      xaxis: { title: "X-axis", automargin: true },
+      yaxis: { title: "Y-axis", automargin: true },
+      zaxis: { title: "Z-axis", automargin: true },
     },
   };
 
   return (
     <div className={styles.container}>
-      <Plot
-        data={data}
-        layout={layout}
-        style={{ width: "100%", height: "100%" }}
-      />
-      );
-      {/* {stlURL && <StlViewer orbitControls shadows url={stlURL} />} */}
+      {points && (
+        <Plot
+          data={[
+            {
+              x: points["x"],
+              y: points["y"],
+              z: points["z"],
+              colors: points["colors"],
+              mode: "markers",
+              marker: { size: 2, color: "blue", opacity: 0.8 },
+              type: "scatter3d",
+            },
+          ]}
+          layout={layout}
+          className={styles.plot}
+        />
+      )}
+      {stlURL && (
+        <StlViewer
+          orbitControls
+          shadows
+          showAxes
+          url={stlURL}
+          className={styles.stl}
+        />
+      )}
     </div>
   );
 };
