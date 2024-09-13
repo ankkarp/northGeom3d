@@ -38,6 +38,10 @@
 
 ![alt text](docs/image.png)
 
+![alt text](docs/image_town.png)
+
+![alt text](docs/depth_map.png)
+
 ## Структурный свет
 
 В папке structured_light находится алгоритм по 3Д реконструкции объекта с помощью структурного света.
