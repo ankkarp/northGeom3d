@@ -1,5 +1,10 @@
 fastapi==0.114.0
 numpy-stl==3.1.2
-PyYAML==6.0.1
-plotly==5.19.0
 numpy==1.26.4
+opencv-python-headless==4.10.0.84
+Pillow==10.4.0
+plotly==5.19.0
+PyYAML==6.0.1
+streamlit==1.38.0
+torch==2.4.1
+transformers==4.44.2

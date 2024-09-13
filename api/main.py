@@ -79,7 +79,7 @@ async def response_stl(image1: UploadFile = File(...), image2: UploadFile = File
 
     # Generate STL file
     stl_file_path = create_stl_file()
-    time.time(5)
+    time.sleep(5)
 
     return FileResponse(stl_file_path, filename='object.stl', media_type='model/stl')
 

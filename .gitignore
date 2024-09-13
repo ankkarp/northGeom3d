@@ -1,6 +1,8 @@
-/models/*
-*.stl*
-*.html
-.venv
 __pycache__
 .env
+.idea
+.venv
+.vscode
+*.html
+*.stl*
+/models/*
