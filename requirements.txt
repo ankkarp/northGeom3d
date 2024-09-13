@@ -3,3 +3,10 @@ numpy-stl==3.1.2
 PyYAML==6.0.1
 plotly==5.19.0
 numpy==1.26.4
+streamlit
+Pillow
+numpy
+opencv-python-headless
+transformers
+torch
+plotly
