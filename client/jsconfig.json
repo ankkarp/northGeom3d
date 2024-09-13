@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@icons/*": ["components/icons/*"],
+      "@buttons/*": ["components/buttons/*"],
+      "@inputs/*": ["components/inputs/*"],
+      "@outputs/*": ["components/outputs/*"],
+      "@layouts/*": ["components/layouts/*"],
+      "@forms/*": ["components/forms/*"],
+      "@api/*": ["api/*"],
+    }
+  },
+  "include": ["app/**/*", "components"]
+}

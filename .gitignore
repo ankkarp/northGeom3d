@@ -1,7 +1,13 @@
-### JetBrains template
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+__pycache__
+.env
 .idea
+
+.venv
+.vscode
+*.html
+*.stl*
+/models/*
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -84,3 +90,24 @@ data/data/*
 data/Материалы*
 output/*
 src/__pycache__/*
+
+# Прочее
+/models/*
+*.stl*
+*.html
+*.zip
+*.pptx
+Материалы кейс 11/*
+notebooks/calibration_2.ipynb
+notebooks/multiview_reconstruction
+notebooks/mvsformer_test.sh
+make_dataset/*
+.venv
+
+dev
+data/calibrate/imgs/*
+data/data/imgs/*
+data/Материалы/*
+output/*
+src/__pycache__/*
+

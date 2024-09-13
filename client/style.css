@@ -1,0 +1,104 @@
+:root {
+  --base-clr: #002F6C;
+  --accent-clr: #FF0000;
+  --background-clr: #ffffff;
+  --font: Inter
+}
+
+html{
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  color: var(--base-clr);
+  background: var(--background-clr);
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  margin: 1rem 0 0 0;
+
+}
+
+p {
+  color: var(--base-clr);
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+textarea, input, button { 
+  outline: none;
+  border: none;
+  margin: 0;
+}
+
+button {
+  font-family: var(--primary-font);
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+h1{
+  margin: 0 0 0 1rem;
+  font-size: 1.6rem;
+}
+
+h2 {
+  margin: 0px 0rem 2rem 5rem;
+  font-size: 1rem;
+}
+
+span{
+  color: var(--accent-clr)
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  justify-items: center;
+  margin: 1rem 0 0 2rem
+}
+
+@media screen and (orientation:portrait) {
+  main {
+    flex-direction:column;
+    width: 100vw;
+    margin: 0 0 2rem 0;
+
+  }
+}
+
+/* main {
+  display: grid;
+  grid-template-columns: 300px 300px 1fr;
+  column-gap: 2em;
+  row-gap: 2em;
+  place-items: center;
+
+} */
+
+/* @media screen and (orientation:portrait) {
+  main {
+    grid-template-columns: 1fr;
+
+  }
+} */
