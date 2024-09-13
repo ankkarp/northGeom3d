@@ -17,7 +17,7 @@ app = FastAPI()
 DIR = os.path.dirname(__file__)
 
 
-@app.post("/api/test/circle")
+@app.post("/api/circle_distance")
 async def response_circle(left_image: UploadFile = File(...), right_image: UploadFile = File(...)):
     if not left_image or not right_image:
         raise HTTPException(status_code=400, detail="Missing files")
@@ -34,21 +34,32 @@ async def response_circle(left_image: UploadFile = File(...), right_image: Uploa
         'right_map':map2.tolist(),
     }
 
-    res = json.dumps(res)
-    print('sdf', len(res), type(res))
+    res = jsonable_encoder(res)
 
     return JSONResponse(content=res)
 
 
-@app.post("/api/test/ply")
-async def response_ply(image1: UploadFile = File(...), image2: UploadFile = File(...), yaml_file: UploadFile = File(...)):
-    if not image1 or not image2 or not yaml_file:
+@app.post("/api/distance")
+async def response_distance(left_image: UploadFile = File(...), right_image: UploadFile = File(...)):
+    if not left_image or not right_image:
         raise HTTPException(status_code=400, detail="Missing files")
 
-    # Dummy processing: read YAML
-    yaml_content = yaml.safe_load(yaml_file.file)
+    left_image = Image.open(left_image.file)
+    right_image = Image.open(right_image.file)
 
-    return HTMLResponse(content='heh')
+    left_image_mask, right_image_mask, map1, map2 = run_inference_marked_town(left_image, right_image)
+
+    res = {
+        'left_image':left_image_mask.tolist(),
+        'right_image':right_image_mask.tolist(),
+        'left_map':map1.tolist(),
+        'right_map':map2.tolist(),
+    }
+
+    res = jsonable_encoder(res)
+
+    return JSONResponse(content=res)
+
 
 if __name__ == '__main__':
     import uvicorn
