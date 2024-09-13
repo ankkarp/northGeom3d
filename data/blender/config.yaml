@@ -1,0 +1,13 @@
+output_path: "./dataset/"
+frames: 20
+frame_start: 0
+radius: -5
+cameras:
+  camera_1:
+    name: "Camera_1"
+    location: [-0.7, 5, 0]
+    rotation: [270, 0, 6.5]
+  camera_2:
+    name: "Camera_2"
+    location: [0.7, 5, 0]
+    rotation: [270, 0, -6.5]
