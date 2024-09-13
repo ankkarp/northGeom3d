@@ -42,7 +42,7 @@
 
 В папке structured_light находится алгоритм по 3Д реконструкции объекта с помощью структурного света.
 
-![alt text](structured_light/3D-reconstruction-using-structured-light/Results/correspondence.jpg)
+![alt text](structured_light/Results/correspondence.jpg)
 
 ## Acknowledgements
 - Оценка глубины модель HuggingFace: `depth-anything/Depth-Anything-V2-base-hf`
