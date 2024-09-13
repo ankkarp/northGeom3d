@@ -78,3 +78,9 @@ make_dataset/val/*
 *.pptx
 *.zip
 models/*
+data/calibrate/*
+data/data/*
+*.pdf
+data/Материалы*
+output/*
+src/__pycache__/*

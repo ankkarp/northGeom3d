@@ -56,7 +56,7 @@ def capture_views(stl_file, num_views, output_dir):
     camera_height = 5
     camera_target_distance = np.array([camera_distance, 0, camera_height]) - np.array(mesh_pr.centroid)
     camera_target_distance = np.linalg.norm(camera_target_distance)
-    camera = pyrender.PerspectiveCamera(yfov=np.pi / 3.0, aspectRatio=720/480, znear=0.1, zfar=camera_target_distance)
+    camera = pyrender.PerspectiveCamera(yfov=np.pi / 3.0, aspectRatio=720/480)
     camera_node = scene.add(camera)
     print(np.array(mesh_pr.centroid))
 
@@ -129,7 +129,7 @@ def capture_views(stl_file, num_views, output_dir):
         json.dump({'frames': transforms[int(0.85*num_views):]}, f)
 
 # Использование функции
-stl_file = './Pyramid Small2.stl'
+stl_file = './Very_small_pyramid.stl'
 num_views = 500
 output_dir = '.'
 
