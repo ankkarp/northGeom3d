@@ -1,13 +1,13 @@
 __pycache__
 .env
 .idea
-<<<<<<< HEAD
+
 .venv
 .vscode
 *.html
 *.stl*
 /models/*
-=======
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -77,6 +77,20 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+make_dataset/train/*
+make_dataset/test/*
+make_dataset/val/*
+Материалы кейс 11/*
+*.pptx
+*.zip
+models/*
+data/calibrate/*
+data/data/*
+*.pdf
+data/Материалы*
+output/*
+src/__pycache__/*
+
 # Прочее
 /models/*
 *.stl*
@@ -96,4 +110,4 @@ data/data/imgs/*
 data/Материалы/*
 output/*
 src/__pycache__/*
->>>>>>> origin/feature/backend
+
