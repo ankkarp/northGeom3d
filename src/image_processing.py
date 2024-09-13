@@ -52,10 +52,17 @@ def find_circle_and_line(img):
             mask = np.zeros_like(gray)
             cv2.circle(mask, (int(x), int(y)), int(radius), 255, -1)
             mean_val = cv2.mean(gray, mask=mask)[0]
-            if mean_val > 100:
+            if mean_val > 100:  # White circle
                 cv2.circle(img, (int(x), int(y)), int(radius), (255, 0, 0), 2)
-            else:
-                cv2.circle(img, (int(x), int(y)), int(radius), (0, 0, 255), 2)
+                
+                radius_mm = pixels_to_mm(radius)
+
+                # Display radius next to the white circle
+                cv2.putText(img, f"R={radius_mm:.1f}", (int(x) - 5, int(y) - int(radius) - 5),
+                            cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 0), 2)
+
+            else: # Black circle
+                cv2.circle(img, (int(x), int(y)), int(radius), (0, 0, 255), 4)
                 centers.append((int(x), int(y)))
 
     for i in range(len(centers)):
