@@ -45,19 +45,23 @@ def look_at(camera_position, target_position, up_vector=np.array([0, 0, 1])):
 
 def capture_views(stl_file, num_views, output_dir):
     # Загрузка STL-файла
-    material = pyrender.Material(alphaMode='OPAQUE')
+    material = pyrender.MetallicRoughnessMaterial()
     mesh = trimesh.load(stl_file)
-    scene = pyrender.Scene()
+    scene = pyrender.Scene(bg_color=(125, 125, 125))
     mesh_pr = pyrender.Mesh.from_trimesh(mesh)
     scene.add(pyrender.Mesh.from_trimesh(mesh, wireframe=False))
 
     # Настройка камеры
-    camera = pyrender.PerspectiveCamera(yfov=np.pi / 3.0, aspectRatio=1.0)
+    camera_distance = 30
+    camera_height = 5
+    camera_target_distance = np.array([camera_distance, 0, camera_height]) - np.array(mesh_pr.centroid)
+    camera_target_distance = np.linalg.norm(camera_target_distance)
+    camera = pyrender.PerspectiveCamera(yfov=np.pi / 3.0, aspectRatio=720/480, znear=0.1, zfar=camera_target_distance)
     camera_node = scene.add(camera)
     print(np.array(mesh_pr.centroid))
 
     # Настройка света
-    light = pyrender.PointLight(color=[1, 1, 1], intensity=2000.0)
+    light = pyrender.DirectionalLight(color=[1, 1, 1], intensity=200.0)
     light_node = scene.add(light)
     light_pos = [
         [1, 0, 0, 0],
@@ -68,7 +72,7 @@ def capture_views(stl_file, num_views, output_dir):
     scene.set_pose(light_node, light_pos)
 
     # Создание рендерера
-    r = pyrender.OffscreenRenderer(viewport_width=640, viewport_height=480)
+    r = pyrender.OffscreenRenderer(viewport_width=720, viewport_height=480)
 
     transforms = []
 
@@ -76,9 +80,9 @@ def capture_views(stl_file, num_views, output_dir):
         # Вычисление позиции камеры
         angle = (2 * np.pi * i) / num_views
         camera_pos = np.array([
-            np.cos(angle)*50, 
-            np.sin(angle)*50, 
-            5])
+            np.cos(angle)*camera_distance, 
+            np.sin(angle)*camera_distance, 
+            camera_height])
         # camera_pose = np.eye(4)
         # camera_pose[:3, 3] = camera_pos
         # camera_pose[:3, :3] = pyrender.math.look_at(camera_pos, [0, 0, 0], [0, 0, 1])
@@ -87,9 +91,10 @@ def capture_views(stl_file, num_views, output_dir):
 
         # Установка позиции камеры
         scene.set_pose(camera_node, camera_pose)
+        scene.set_pose(light_node, camera_pose)
 
         # Рендеринг
-        color, depth = r.render(scene)
+        color, depth = r.render(scene, flags=pyrender.RenderFlags.ALL_SOLID+pyrender.RenderFlags.OFFSCREEN)
         normal, _ = r._renderer._read_main_framebuffer(scene, flags=pyrender.RenderFlags.FACE_NORMALS)
 
         depth_non_bg = depth > 0
@@ -124,7 +129,7 @@ def capture_views(stl_file, num_views, output_dir):
         json.dump({'frames': transforms[int(0.85*num_views):]}, f)
 
 # Использование функции
-stl_file = './Pyramid Small.stl'
+stl_file = './Pyramid Small2.stl'
 num_views = 500
 output_dir = '.'
 
