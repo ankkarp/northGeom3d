@@ -1,0 +1,16 @@
+.gallery{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+    place-items: center;
+}
+
+@media screen and (orientation:portrait) {
+    .gallery{
+        display: flex;
+        flex-direction: column;
+        place-items: center;
+
+    }
+}

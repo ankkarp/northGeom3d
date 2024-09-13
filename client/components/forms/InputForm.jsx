@@ -16,6 +16,7 @@ export default function InputForm({ setPoints, setStlURL }) {
   const [imageURL, setImageURL] = useState(null);
   const [imageURL2, setImageURL2] = useState(null);
   const [schema, setSchema] = useState(null);
+  const [namedData, setNamedData] = useState(null);
 
   const handleClear = (e) => {
     setImageFile(null);
@@ -32,6 +33,15 @@ export default function InputForm({ setPoints, setStlURL }) {
     formData.append("image2", imageFile2);
     formData.append("yaml_file", schema);
     try {
+      http
+        .post(`api/test/ply`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((r) => setPoints(r.data))
+        .then(() => setLoading(true));
+
       http
         .post(`api/test/ply`, formData, {
           headers: {
