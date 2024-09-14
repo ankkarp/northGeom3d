@@ -36,7 +36,7 @@ def main(path, config, figure):
     """
     frames = config['frames']
     x_offset = config['cameras']['camera_1']['rotation'][2]
-    radius = config['cameras']['camera_1']['location'][1]
+    radius = 0
 
     # Открываем файл .blend
     bpy.ops.wm.open_mainfile(filepath=path)
@@ -66,12 +66,12 @@ def main(path, config, figure):
         # Позиция первой камеры (слева)
         camera_1.location.x = radius * math.cos(angle - math.radians(x_offset))
         camera_1.location.y = radius * math.sin(angle - math.radians(x_offset))
-        camera_1.location.z = radius
+        camera_1.location.z = 0
 
         # Позиция второй камеры (справа)
         camera_2.location.x = radius * math.cos(angle + math.radians(x_offset))
         camera_2.location.y = radius * math.sin(angle + math.radians(x_offset))
-        camera_2.location.z = radius
+        camera_2.location.z = 0
 
         # Устанавливаем ключевые кадры для положения камер
         camera_1.keyframe_insert(data_path="location", frame=frame)
