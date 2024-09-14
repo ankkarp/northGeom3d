@@ -65,6 +65,5 @@
 ```
     python render.py --figure=./figures/marker_60_fd.blend
 ```
-![alt text](docs/1.jpg)
-![alt text](docs/2.jpg)
-![alt text](docs/3.jpg)
+![alt text](docs/4.jpg)
+
