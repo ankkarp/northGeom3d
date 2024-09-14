@@ -1,6 +1,10 @@
+bpy==4.0.0
+diffusers==0.30.2
 fastapi==0.114.0
+open3d==0.18.0
 numpy-stl==3.1.2
 numpy==1.26.4
+matplotlib==3.9.2 
 opencv-python-headless==4.10.0.84
 Pillow==10.4.0
 plotly==5.19.0

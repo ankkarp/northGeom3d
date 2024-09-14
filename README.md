@@ -25,7 +25,7 @@
 
 1. Запуск приложения:
     ```bash
-    streamlit run app.py --server.port=<НОМЕР_ПОРТА>
+    streamlit run app.py --server.enableXsrfProtection false --server.port=<НОМЕР_ПОРТА>
     ```
 
 2. Откройте приложение по адресу `http://localhost:<НОМЕР_ПОРТА>`.
