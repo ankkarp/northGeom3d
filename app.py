@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 from src.depth_estimation import run_inference_marked_grid, run_inference_marked_town
+from src.visualize_3d import create_3d_plot
 
 st.title("northGeom3d")
 
@@ -41,6 +42,13 @@ with tab2:
             st.image(right_image_mask, caption="Правое изображение", use_column_width=True)
             st.image(map1, caption="Карта глубины", use_column_width=True)
             st.image(map2, caption="Карта глубины", use_column_width=True)
+
+
+            # fig_3d_1 = create_3d_plot(map1)
+            # fig_3d_2 = create_3d_plot(map2)
+            # st.pyplot(fig_3d_1)
+            # st.pyplot(fig_3d_2)
+
 
 with tab3:
     st.write("None")
