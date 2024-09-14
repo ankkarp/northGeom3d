@@ -58,7 +58,7 @@
 - Оценка глубины модель HuggingFace: `depth-anything/Depth-Anything-V2-base-hf`
 - Библиотеки: Streamlit, Pillow, OpenCV, NumPy, Transformers, Torch
 
-## Генерация датасета
+## Генерация датасета с помощью Blender
 1. Настроить конфигуационный файл в диреткории "data/blender/"
 2. Запустить в этой же директории с указанием выбранной фигуры комманду
 ```
