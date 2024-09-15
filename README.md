@@ -3,9 +3,7 @@
 ## Описание
 `northGeom3d` - проект по измерению объектов в рамках хакатона ИТМО и Ai Talent Hub - AI Product Hack
 
-<video width="320" height="240" controls>
-  <source src="docs/demo_video.mp4" type="video/mp4">
-</video>
+![video demo](docs/demo_video.gif)
 
 ## Возможности
 - **Расстояние между точками, диаметр окружности:** Измерение расстояния между черными точками и измерение диаметра белых окружностей
