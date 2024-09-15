@@ -2,6 +2,10 @@ import bpy
 import math
 import yaml
 import argparse
+import random
+from src.obj_augmentation import Material
+from src.camera import Camera
+
 
 config_file = "config.yaml"
 
@@ -13,51 +17,7 @@ def load_config(path: str):
         config = yaml.safe_load(file)
     return config
 
-def load_camera(camera_conf):
-    """
-    Загрузка параметров камеры
-    """
-    camera = bpy.data.objects[camera_conf['name']]
-    camera.location = camera_conf['location']
-    rotation = camera_conf['rotation']
-
-    camera.rotation_euler = (
-        math.radians(rotation[0]),
-        math.radians(rotation[1]),
-        math.radians(rotation[2]),
-    )
-    return camera
-
-
-def main(path, config, figure):
-    """
-        Основная функци, принимает параметры
-        и циклом создает рендер
-    """
-    frames = config['frames']
-    x_offset = config['cameras']['camera_1']['rotation'][2]
-    radius = 0
-
-    # Открываем файл .blend
-    bpy.ops.wm.open_mainfile(filepath=path)
-    obj = bpy.data.objects[figure]
-    camera_1 = load_camera(config['cameras']['camera_1'])
-    camera_2 = load_camera(config['cameras']['camera_2'])
-
-    # Устанавливаем начальное положение камеры
-    bpy.context.scene.frame_start = config['frame_start']
-    bpy.context.scene.frame_end = frames
-
-    # Применяем трек к объекту для обеих камер
-    camera_1_constraint = camera_1.constraints.new(type='TRACK_TO')
-    camera_1_constraint.target = obj
-    camera_1_constraint.track_axis = 'TRACK_NEGATIVE_Z'
-    camera_1_constraint.up_axis = 'UP_Y'
-
-    camera_2_constraint = camera_2.constraints.new(type='TRACK_TO')
-    camera_2_constraint.target = obj
-    camera_2_constraint.track_axis = 'TRACK_NEGATIVE_Z'
-    camera_2_constraint.up_axis = 'UP_Y'
+def render_from_cameras(camera_1, camera_2, config: dict, figure: str, frames: int, radius: float, x_offset: float, cycle :int):
 
     for frame in range(frames):
         # Рассчитываем угол вращения
@@ -82,13 +42,46 @@ def main(path, config, figure):
 
         # Рендеринг с камеры 1
         bpy.context.scene.camera = camera_1
-        bpy.context.scene.render.filepath = f"{config['output_path']}_{figure}_camera_1_{frame:03d}.png"
+        bpy.context.scene.render.filepath = f"{config['output_path']}_{figure}_{cycle}_camera_1_{frame:03d}.png"
         bpy.ops.render.render(write_still=True)
 
         # Рендеринг с камеры 2
         bpy.context.scene.camera = camera_2
-        bpy.context.scene.render.filepath = f"{config['output_path']}_{figure}_camera_2_{frame:03d}.png"
+        bpy.context.scene.render.filepath = f"{config['output_path']}_{figure}_{cycle}_camera_2_{frame:03d}.png"
         bpy.ops.render.render(write_still=True)
+
+
+def main(path, config, figure):
+    """
+        Основная функция, принимает параметры
+        и циклом создает рендер заданное количество раз
+    """
+    frames_in_cycle = config['frames_in_cycle']
+    cycles = config['cycles']
+    for cycle in range(cycles):
+
+        x_offset = config['cameras']['camera_1']['rotation'][2]
+        radius = config['cameras']['camera_1']['location'][1]
+
+        # Открываем файл .blend
+        bpy.ops.wm.open_mainfile(filepath=path)
+        obj = bpy.data.objects[figure]
+        augmentation_obj = Material(config)
+        augmentation_obj.create_material(obj)
+
+        # Устанавливаем начальное положение камеры
+        bpy.context.scene.frame_start = config['frame_start']
+        bpy.context.scene.frame_end = frames_in_cycle
+
+        camera_1_handler = Camera(config['cameras']['camera_1'])
+        camera_1 = camera_1_handler.load_camera()
+        camera_1_constraint = camera_1_handler.load_constant(obj)
+
+        camera_2_handler = Camera(config['cameras']['camera_2'])
+        camera_2 = camera_2_handler.load_camera()
+        camera_2_constraint = camera_2_handler.load_constant(obj)
+
+        render_from_cameras(camera_1, camera_2, config, figure, frames_in_cycle, radius, x_offset, cycle)
 
 
 
