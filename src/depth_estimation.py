@@ -2,10 +2,12 @@ import time
 import numpy as np
 from transformers import pipeline
 from src.image_processing import find_circle, find_circle_and_line
+from src.config import config
 
-device = "cuda"
-checkpoint = "depth-anything/Depth-Anything-V2-base-hf"
-pipe = pipeline("depth-estimation", model=checkpoint, device=device)
+device = config['device']
+checkpoint = config['depth_model']['repo_hf']
+task = config['depth_model']['pipeline_task']
+pipe = pipeline(task=task, model=checkpoint, device=device)
 
 def run_inference_marked_grid(left_image, right_image):
     time_start = time.time()

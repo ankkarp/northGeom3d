@@ -110,4 +110,5 @@ data/data/imgs/*
 data/Материалы/*
 output/*
 src/__pycache__/*
-
+structired_light/__pycache__/*
+api/__pycache__/*

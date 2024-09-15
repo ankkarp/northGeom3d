@@ -1,0 +1,22 @@
+image_upload:
+  allowed_types: ["jpg", "jpeg", "png"]
+  caption_left: "Левое изображение"
+  caption_right: "Правое изображение"
+  button_label: "Обработать"
+tabs:
+  - name: "Расстояние между точками, диаметр окружности"
+    process_function: "run_inference_marked_grid"
+  - name: "Расстояние между точками"
+    process_function: "run_inference_marked_town"
+  - name: "Листовой прокат"
+    process_function: None
+depth_map_captions:
+  depth_map_1: "Карта глубины"
+  depth_map_2: "Карта глубины"
+depth_model:
+  repo_hf: "depth-anything/Depth-Anything-V2-base-hf"
+  pipeline_task: "depth-estimation"
+3d_model:
+  repo_hf: "dylanebert/LGM-full"
+  pipeline_task: "dylanebert/LGM-full"
+device: "cuda" # cuda or cpu

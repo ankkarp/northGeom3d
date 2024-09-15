@@ -1,14 +1,56 @@
 import cv2
 import numpy as np
 import math
+from src.config import config
 
 def euclidean_distance(point1, point2):
+    """
+    Calculate the Euclidean distance between two points.
+
+    Parameters
+    ----------
+    point1 : tuple
+        Coordinates of the first point (x1, y1).
+    point2 : tuple
+        Coordinates of the second point (x2, y2).
+
+    Returns
+    -------
+    float
+        Euclidean distance between the two points.
+    """
     return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
 
 def pixels_to_mm(pixels):
+    """
+    Convert pixels to millimeters based on the ratio 400 pixels = 9.6 mm.
+
+    Parameters
+    ----------
+    pixels : float
+        Distance in pixels.
+
+    Returns
+    -------
+    float
+        Distance in millimeters.
+    """
     return pixels * 0.024
 
 def find_circle(img):
+    """
+    Find circles in a binary image and draw them to the original image.
+
+    Parameters
+    ----------
+    img : numpy array
+        Input image.
+
+    Returns
+    -------
+    img : numpy array
+        Image with drawn circles.
+    """
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     _, binary = cv2.threshold(gray, 50, 255, cv2.THRESH_BINARY_INV)
     contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -36,6 +78,19 @@ def find_circle(img):
     return img
 
 def find_circle_and_line(img):
+    """
+    Find circles in a binary image and draw them to the original image.
+
+    Parameters
+    ----------
+    img : numpy array
+        Input image.
+
+    Returns
+    -------
+    img : numpy array
+        Image with drawn circles.
+    """
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (3, 3), 0)
     _, binary = cv2.threshold(blur, 140, 255, cv2.THRESH_BINARY_INV)
@@ -57,7 +112,6 @@ def find_circle_and_line(img):
                 
                 radius_mm = pixels_to_mm(radius)
 
-                # Display radius next to the white circle
                 cv2.putText(img, f"d={radius_mm:.1f}", (int(x) - 5, int(y) - int(radius) - 5),
                             cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 0), 2)
 

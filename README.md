@@ -23,6 +23,11 @@
     pip install -r requirements.txt
     ```
 
+3. Смена вычислителя CUDA или CPU
+   ```bash
+    config.yaml -> device: "cuda"
+    ```
+
 ## Использование
 
 1. Запуск приложения:
