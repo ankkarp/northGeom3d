@@ -2,7 +2,7 @@ import math
 
 import bpy
 
-class Camera:
+class Camera_node:
     """    Класс создания камеры.
     """
     def __init__(self, camera_config: dict):

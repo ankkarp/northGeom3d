@@ -3,8 +3,9 @@ import math
 import yaml
 import argparse
 import random
-from src.obj_augmentation import Material
-from src.camera import Camera
+from src.augmentation_node import Material
+from src.camera import Camera_node
+from src.derph_node import Depth_node
 
 
 config_file = "config.yaml"
@@ -17,7 +18,7 @@ def load_config(path: str):
         config = yaml.safe_load(file)
     return config
 
-def render_from_cameras(camera_1, camera_2, config: dict, figure: str, frames: int, radius: float, x_offset: float, cycle :int):
+def render_from_cameras(camera_1, camera_2, config: dict, figure: str, frames: int, radius: float, x_offset: float, cycle :int, output_depth):
 
     for frame in range(frames):
         # Рассчитываем угол вращения
@@ -42,50 +43,52 @@ def render_from_cameras(camera_1, camera_2, config: dict, figure: str, frames: i
 
         # Рендеринг с камеры 1
         bpy.context.scene.camera = camera_1
-        bpy.context.scene.render.filepath = f"{config['output_path']}_{figure}_{cycle}_camera_1_{frame:03d}.png"
+        bpy.context.scene.render.filepath = f"./{config['render_output_path']}_{figure}_{cycle}_camera_1_{frame:03d}.png"
+        output_depth.file_slots[0].path = f"./{config['depth_output_path']}_{figure}_{cycle}_camera_1_depth_"
         bpy.ops.render.render(write_still=True)
 
         # Рендеринг с камеры 2
         bpy.context.scene.camera = camera_2
-        bpy.context.scene.render.filepath = f"{config['output_path']}_{figure}_{cycle}_camera_2_{frame:03d}.png"
+        bpy.context.scene.render.filepath = f"{config['render_output_path']}_{figure}_{cycle}_camera_2_{frame:03d}.png"
+        output_depth.file_slots[0].path = f"{config['depth_output_path']}_{figure}_{cycle}_camera_2_depth_"
         bpy.ops.render.render(write_still=True)
 
 
 def main(path, config, figure):
     """
         Основная функция, принимает параметры
-        и циклом создает рендер заданное количество раз
+        и циклом создает рендер и карты глубин
+        заданное количество разза цикл
     """
     frames_in_cycle = config['frames_in_cycle']
     cycles = config['cycles']
     for cycle in range(cycles):
-
         x_offset = config['cameras']['camera_1']['rotation'][2]
         radius = config['cameras']['camera_1']['location'][1]
 
         # Открываем файл .blend
         bpy.ops.wm.open_mainfile(filepath=path)
         obj = bpy.data.objects[figure]
-        augmentation_obj = Material(config)
-        augmentation_obj.create_material(obj)
+        augmentation_node = Material(config)
+        augmentation_node.create_material(obj)
+
+        # карта глубины
+        deth_node = Depth_node(config['depth_map'])
+        output_depth =deth_node.create_depth()
 
         # Устанавливаем начальное положение камеры
         bpy.context.scene.frame_start = config['frame_start']
         bpy.context.scene.frame_end = frames_in_cycle
 
-        camera_1_handler = Camera(config['cameras']['camera_1'])
+        camera_1_handler = Camera_node(config['cameras']['camera_1'])
         camera_1 = camera_1_handler.load_camera()
         camera_1_constraint = camera_1_handler.load_constant(obj)
 
-        camera_2_handler = Camera(config['cameras']['camera_2'])
+        camera_2_handler = Camera_node(config['cameras']['camera_2'])
         camera_2 = camera_2_handler.load_camera()
         camera_2_constraint = camera_2_handler.load_constant(obj)
 
-        render_from_cameras(camera_1, camera_2, config, figure, frames_in_cycle, radius, x_offset, cycle)
-
-
-
-
+        render_from_cameras(camera_1, camera_2, config, figure, frames_in_cycle, radius, x_offset, cycle, output_depth)
 
 
 if __name__ == "__main__":

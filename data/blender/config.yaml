@@ -1,14 +1,21 @@
-output_path: "./dataset/"
+render_output_path: "./dataset/render/"
+depth_output_path: "./dataset/depth/"
 frames_in_cycle: 1
-cycles: 2
+cycles: 1
 frame_start: 0
 radius: -5
 cameras:
   camera_1:
     name: "Camera_1"
     location: [0.7, -5, 0]
-    rotation: [270, 0, 6.5]
+    rotation: [270, 0, 15]
   camera_2:
     name: "Camera_2"
     location: [-0.7, -5, 0]
-    rotation: [270, 0, -6.5]
+    rotation: [270, 0, -15]
+depth_map:
+  save_format: "PNG"
+  image_format: "RGB"
+  color_depth: "16"
+  compression: 20
+  base_path: ""
