@@ -8,11 +8,11 @@ cameras:
   camera_1:
     name: "Camera_1"
     location: [0.7, -5, 0]
-    rotation: [270, 0, 15]
+    rotation: [270, 0, 6.5]
   camera_2:
     name: "Camera_2"
     location: [-0.7, -5, 0]
-    rotation: [270, 0, -15]
+    rotation: [270, 0, -6.5]
 depth_map:
   save_format: "PNG"
   image_format: "RGB"
