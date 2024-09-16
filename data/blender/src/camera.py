@@ -1,9 +1,10 @@
 import math
-
 import bpy
 
+
 class Camera_node:
-    """    Класс создания камеры.
+    """
+        Класс создания камеры.
     """
     def __init__(self, camera_config: dict):
         # Создаем новый материал
@@ -11,9 +12,6 @@ class Camera_node:
         self.camera = None
 
     def load_camera(self):
-        """
-        Загрузка параметров камеры
-        """
         self.camera = bpy.data.objects[self.config['name']]
         self.camera.location = self.config['location']
         rotation = self.config['rotation']
@@ -26,7 +24,6 @@ class Camera_node:
         return self.camera
 
     def load_constant(self, object):
-        # Применяем трек к объекту для обеих камер
         camera_constraint = self.camera.constraints.new(type='TRACK_TO')
         camera_constraint.target = object
         camera_constraint.track_axis = 'TRACK_NEGATIVE_Z'

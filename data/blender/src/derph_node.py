@@ -2,7 +2,8 @@ import bpy
 
 
 class Depth_node:
-    """    Класс создания карты глубины
+    """
+        Класс создания карты глубины
     """
     def __init__(self, depth_config: dict):
         self.config = depth_config
@@ -39,4 +40,3 @@ class Depth_node:
         compose_links.new(normalize.outputs['Value'], invert.inputs['Color'])
         compose_links.new(invert.outputs['Color'], output_depth.inputs['Image'])
         return output_depth
-

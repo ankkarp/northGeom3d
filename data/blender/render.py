@@ -2,7 +2,6 @@ import bpy
 import math
 import yaml
 import argparse
-import random
 from src.augmentation_node import Material
 from src.camera import Camera_node
 from src.derph_node import Depth_node
@@ -12,14 +11,23 @@ config_file = "config.yaml"
 
 def load_config(path: str):
     """
-    Загрузка настроек из YAML файла.
+        Загрузка настроек из YAML файла.
     """
     with open(path, 'r') as file:
         config = yaml.safe_load(file)
     return config
 
-def render_from_cameras(camera_1, camera_2, config: dict, figure: str, frames: int, radius: float, x_offset: float, cycle :int, output_depth):
-
+def render_from_cameras(camera_1: dict,
+                        camera_2: dict,
+                        config: dict,
+                        figure: str,
+                        frames: int,
+                        radius: float,
+                        x_offset: float,
+                        cycle :int, output_depth):
+    """
+        Функция создает рендеринг по установленным параметрам
+    """
     for frame in range(frames):
         # Рассчитываем угол вращения
         angle = 2 * math.pi * (frame / frames)
