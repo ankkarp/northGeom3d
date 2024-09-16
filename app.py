@@ -39,7 +39,7 @@ with tab1:
         st.image(left_image, caption=config['image_upload']['caption_left'], use_column_width=True)
         st.image(right_image, caption=config['image_upload']['caption_right'], use_column_width=True)
 
-        if st.button(config['image_upload']['button_label']):
+        if st.button(config['image_upload']['button_label'], key=1):
             process_images(run_inference_marked_grid, left_image, right_image)
 
 
@@ -54,7 +54,7 @@ with tab2:
         st.image(left_image, caption=config['image_upload']['caption_left'], use_column_width=True)
         st.image(right_image, caption=config['image_upload']['caption_right'], use_column_width=True)
 
-        if st.button(config['image_upload']['button_label']):
+        if st.button(config['image_upload']['button_label'], key=2):
             process_images(run_inference_marked_town, left_image, right_image)
 
 
