@@ -19,4 +19,6 @@ depth_model:
 3d_model:
   repo_hf: "dylanebert/LGM-full"
   pipeline_task: "dylanebert/LGM-full"
+shema_optics:
+  px2mm: 0.024
 device: "cuda" # cuda or cpu

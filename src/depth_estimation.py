@@ -9,7 +9,19 @@ checkpoint = config['depth_model']['repo_hf']
 task = config['depth_model']['pipeline_task']
 pipe = pipeline(task=task, model=checkpoint, device=device)
 
-def run_inference_marked_grid(left_image, right_image):
+def run_inference_marked_grid(left_image: np.ndarray, right_image: np.ndarray):
+    """
+    Runs depth estimation on the given left and right images.
+
+    Args:
+        left_image (np.ndarray): The left image.
+        right_image (np.ndarray): The right image.
+
+    Returns:
+        A tuple of four numpy arrays, where the first element is the processed left image, 
+        the second element is the processed right image, the third element is the left mask, 
+        and the fourth element is the right mask.
+    """
     time_start = time.time()
     predictions_right = pipe(right_image)
     predictions_left = pipe(left_image)
@@ -38,7 +50,19 @@ def run_inference_marked_grid(left_image, right_image):
     print(time.time() - time_start)
     return np_mask_left, np_mask_right, clear_mask_left, clear_mask_right
 
-def run_inference_marked_town(left_image, right_image):
+def run_inference_marked_town(left_image: np.ndarray, right_image: np.ndarray):
+    """
+    Runs depth estimation on the given left and right images.
+
+    Args:
+        left_image (np.ndarray): The left image.
+        right_image (np.ndarray): The right image.
+
+    Returns:
+        A tuple of four numpy arrays, where the first element is the processed left image, 
+        the second element is the processed right image, the third element is the left mask, 
+        and the fourth element is the right mask.
+    """
     time_start = time.time()
     predictions_right = pipe(right_image)
     predictions_left = pipe(left_image)

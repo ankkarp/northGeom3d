@@ -3,7 +3,7 @@ import numpy as np
 import math
 from src.config import config
 
-def euclidean_distance(point1, point2):
+def euclidean_distance(point1: tuple, point2: tuple):
     """
     Calculate the Euclidean distance between two points.
 
@@ -21,7 +21,7 @@ def euclidean_distance(point1, point2):
     """
     return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
 
-def pixels_to_mm(pixels):
+def pixels_to_mm(pixels: float):
     """
     Convert pixels to millimeters based on the ratio 400 pixels = 9.6 mm.
 
@@ -37,7 +37,7 @@ def pixels_to_mm(pixels):
     """
     return pixels * 0.024
 
-def find_circle(img):
+def find_circle(img: np.ndarray):
     """
     Find circles in a binary image and draw them to the original image.
 
@@ -77,7 +77,7 @@ def find_circle(img):
 
     return img
 
-def find_circle_and_line(img):
+def find_circle_and_line(img: np.ndarray):
     """
     Find circles in a binary image and draw them to the original image.
 

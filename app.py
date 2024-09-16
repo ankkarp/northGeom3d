@@ -8,7 +8,7 @@ st.title("northGeom3d")
 
 tab1, tab2, tab3 = st.tabs([tab['name'] for tab in config['tabs']])
 
-def process_images(process_function, left_image, right_image):
+def process_images(process_function: callable, left_image: Image, right_image: Image):
     """
     Process a pair of images with the given function and display the results.
 
